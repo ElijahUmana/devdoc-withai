@@ -1,0 +1,95 @@
+{
+  "version": "1.0",
+  "project_name": null,
+  "description": "DevDoc Intelligence Platform configuration",
+  
+  "analysis": {
+    "include_patterns": ["**/*.py", "**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.java", "**/*.go", "**/*.rs"],
+    "exclude_dirs": ["node_modules", ".git", "__pycache__", ".venv", "venv", "dist", "build", ".next", "coverage", ".pytest_cache"],
+    "max_file_size_kb": 500,
+    "max_depth": 10
+  },
+
+  "thresholds": {
+    "complexity": {
+      "low": 5,
+      "medium": 10,
+      "high": 15,
+      "critical": 25
+    },
+    "function_length": {
+      "warning": 50,
+      "critical": 100
+    },
+    "file_length": {
+      "warning": 300,
+      "critical": 500
+    },
+    "dependency_fan_in": {
+      "warning": 5,
+      "critical": 8
+    },
+    "duplication_similarity": 0.85,
+    "missing_docstring_threshold": 0.5,
+    "type_hint_coverage_threshold": 0.3
+  },
+
+  "scoring": {
+    "weights": {
+      "complexity": 0.20,
+      "architecture": 0.20,
+      "documentation": 0.15,
+      "testing": 0.15,
+      "security": 0.15,
+      "ai_governance": 0.15
+    },
+    "grade_boundaries": {
+      "A": 90,
+      "B": 75,
+      "C": 60,
+      "D": 45,
+      "F": 0
+    }
+  },
+
+  "trends": {
+    "snapshot_dir": ".devdoc/snapshots",
+    "max_snapshots": 50,
+    "regression_alert_threshold": 0.10
+  },
+
+  "ai_governance": {
+    "detect_repetitive_structures": true,
+    "detect_verbose_functions": true,
+    "detect_inconsistent_naming": true,
+    "detect_shallow_abstraction": true,
+    "detect_copied_logic": true,
+    "verbose_function_ratio": 0.6,
+    "shallow_abstraction_depth": 2,
+    "naming_consistency_threshold": 0.7
+  },
+
+  "security": {
+    "scan_hardcoded_secrets": true,
+    "scan_sql_injection": true,
+    "scan_unvalidated_input": true,
+    "scan_unsafe_deserialization": true,
+    "scan_path_traversal": true,
+    "secret_patterns": [
+      "password\\s*=\\s*['\"][^'\"]+['\"]",
+      "api_key\\s*=\\s*['\"][^'\"]+['\"]",
+      "secret\\s*=\\s*['\"][^'\"]+['\"]",
+      "token\\s*=\\s*['\"][^'\"]+['\"]",
+      "AWS_SECRET|PRIVATE_KEY|BEGIN RSA"
+    ]
+  },
+
+  "output": {
+    "docs_filename": "DOCUMENTATION.md",
+    "report_filename": "REVIEW-REPORT.md",
+    "analysis_filename": "analysis.json",
+    "include_mermaid": true,
+    "include_health_dashboard": true,
+    "include_trend_charts": true
+  }
+}

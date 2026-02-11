@@ -1,0 +1,47 @@
+{
+  "total_findings": 2,
+  "severity_counts": {
+    "HIGH": 0,
+    "MEDIUM": 2,
+    "LOW": 0
+  },
+  "type_counts": {
+    "verbose_function": 2
+  },
+  "governance_score": 90,
+  "governance_grade": "A",
+  "findings": [
+    {
+      "type": "verbose_function",
+      "severity": "MEDIUM",
+      "message": "Function \"paginate\" has low logic density (0.067): 15 lines but complexity 1",
+      "details": {
+        "function": "paginate",
+        "file": "src/utils.py",
+        "line": 41,
+        "line_count": 15,
+        "complexity": 1,
+        "logic_density": 0.0667,
+        "suggestion": "Consider extracting repetitive patterns into helper functions or using data-driven approaches"
+      }
+    },
+    {
+      "type": "verbose_function",
+      "severity": "MEDIUM",
+      "message": "Function \"create_app\" has low logic density (0.071): 28 lines but complexity 2",
+      "details": {
+        "function": "create_app",
+        "file": "src/app.py",
+        "line": 18,
+        "line_count": 28,
+        "complexity": 2,
+        "logic_density": 0.0714,
+        "suggestion": "Consider extracting repetitive patterns into helper functions or using data-driven approaches"
+      }
+    }
+  ],
+  "summary": "Found 2 AI governance issues (score: 90/100). Most common: verbose function (2 instances).",
+  "recommendations": [
+    "VERBOSE FUNCTIONS: Some functions have many lines but low branching complexity. This suggests boilerplate or repetitive code. Consider data-driven approaches or helper extraction."
+  ]
+}

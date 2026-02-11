@@ -1,0 +1,157 @@
+# DevDoc Intelligence Platform — GitHub Action
+# Runs automated codebase analysis on every PR and commit to main.
+#
+# Add this to your repo: .github/workflows/devdoc.yml
+# Requires Python 3.10+
+
+name: DevDoc Analysis
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  devdoc-analysis:
+    name: Codebase Intelligence
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for git tracking
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install DevDoc
+        run: |
+          # Clone DevDoc scripts (in production, install from pip/npm)
+          mkdir -p /tmp/devdoc
+          cp -r abilities/codebase-analyzer/scripts/* /tmp/devdoc/
+          cp abilities/doc-generator/scripts/* /tmp/devdoc/
+          cp abilities/review-reporter/scripts/* /tmp/devdoc/
+
+      - name: Run Core Analysis
+        run: |
+          python3 /tmp/devdoc/analyze.py . --output /tmp/devdoc/analysis.json
+
+      - name: Run Security Scan
+        run: |
+          python3 /tmp/devdoc/security_scanner.py . --output /tmp/devdoc/security.json
+
+      - name: Run AI Governance Check
+        run: |
+          python3 /tmp/devdoc/ai_governance.py . \
+            --analysis /tmp/devdoc/analysis.json \
+            --output /tmp/devdoc/governance.json
+
+      - name: Run Architecture Reasoning
+        run: |
+          python3 /tmp/devdoc/architecture_reasoner.py . \
+            --analysis /tmp/devdoc/analysis.json \
+            --output /tmp/devdoc/architecture.json
+
+      - name: Generate Review Report
+        run: |
+          python3 /tmp/devdoc/generate_report.py \
+            --analysis /tmp/devdoc/analysis.json \
+            --security /tmp/devdoc/security.json \
+            --governance /tmp/devdoc/governance.json \
+            --architecture /tmp/devdoc/architecture.json \
+            --output /tmp/devdoc/REVIEW-REPORT.md
+
+      - name: Extract Scores
+        id: scores
+        run: |
+          python3 -c "
+          import json
+          
+          with open('/tmp/devdoc/analysis.json') as f:
+              analysis = json.load(f)
+          with open('/tmp/devdoc/security.json') as f:
+              security = json.load(f)
+          with open('/tmp/devdoc/governance.json') as f:
+              governance = json.load(f)
+          with open('/tmp/devdoc/architecture.json') as f:
+              architecture = json.load(f)
+          
+          metrics = analysis.get('project_metrics', {})
+          
+          print(f'complexity={metrics.get(\"avg_complexity\", 0)}')
+          print(f'security_score={security.get(\"security_score\", 0)}')
+          print(f'security_grade={security.get(\"security_grade\", \"?\")}')
+          print(f'governance_score={governance.get(\"governance_score\", 0)}')
+          print(f'governance_grade={governance.get(\"governance_grade\", \"?\")}')
+          print(f'arch_score={architecture.get(\"architecture_score\", 0)}')
+          print(f'arch_grade={architecture.get(\"architecture_grade\", \"?\")}')
+          print(f'doc_coverage={metrics.get(\"docstring_coverage\", 0)}')
+          print(f'functions={metrics.get(\"total_functions\", 0)}')
+          " >> "$GITHUB_OUTPUT"
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const scores = {
+              complexity: '${{ steps.scores.outputs.complexity }}',
+              securityScore: '${{ steps.scores.outputs.security_score }}',
+              securityGrade: '${{ steps.scores.outputs.security_grade }}',
+              governanceScore: '${{ steps.scores.outputs.governance_score }}',
+              governanceGrade: '${{ steps.scores.outputs.governance_grade }}',
+              archScore: '${{ steps.scores.outputs.arch_score }}',
+              archGrade: '${{ steps.scores.outputs.arch_grade }}',
+              docCoverage: '${{ steps.scores.outputs.doc_coverage }}',
+              functions: '${{ steps.scores.outputs.functions }}',
+            };
+            
+            const body = `## 📊 DevDoc Analysis Report
+            
+            | Dimension | Score | Grade |
+            |-----------|-------|-------|
+            | Architecture | ${scores.archScore}/100 | ${scores.archGrade} |
+            | Security | ${scores.securityScore}/100 | ${scores.securityGrade} |
+            | AI Governance | ${scores.governanceScore}/100 | ${scores.governanceGrade} |
+            | Documentation | ${(parseFloat(scores.docCoverage) * 100).toFixed(0)}% | — |
+            | Avg Complexity | ${scores.complexity} | — |
+            
+            > ${scores.functions} functions analyzed across the codebase.
+            > Full report available as artifact.
+            
+            ---
+            *Generated by DevDoc Intelligence Platform*`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Upload Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: devdoc-report
+          path: /tmp/devdoc/REVIEW-REPORT.md
+
+      - name: Security Gate
+        run: |
+          python3 -c "
+          import json, sys
+          with open('/tmp/devdoc/security.json') as f:
+              data = json.load(f)
+          critical = data.get('severity_counts', {}).get('CRITICAL', 0)
+          if critical > 0:
+              print(f'::error::DevDoc Security Gate: {critical} CRITICAL vulnerabilities found')
+              sys.exit(1)
+          print('Security gate passed.')
+          "

@@ -1,0 +1,21 @@
+# DevDoc generated outputs (keep in demo/outputs for examples)
+.devdoc/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code workspace
+.vscode/
+*.code-workspace
+
+# Logs
+*.log

@@ -1,0 +1,112 @@
+{
+  "architecture_pattern": {
+    "detected_pattern": "Layered Architecture",
+    "confidence": 0.5,
+    "matched_indicators": [
+      "models",
+      "routes",
+      "utils"
+    ]
+  },
+  "architecture_score": 83,
+  "architecture_grade": "B",
+  "score_breakdown": {
+    "bottlenecks": {
+      "penalty": 0,
+      "count": 0
+    },
+    "concern_separation": {
+      "penalty": 8,
+      "count": 1
+    },
+    "circular_dependencies": {
+      "penalty": 0,
+      "count": 0
+    },
+    "god_modules": {
+      "penalty": 6,
+      "count": 1
+    },
+    "coupling": {
+      "penalty": 3,
+      "density": 0.25
+    }
+  },
+  "bottlenecks": [],
+  "concern_separation": [
+    {
+      "file": "src/app.py",
+      "severity": "MEDIUM",
+      "concerns": [
+        "File I/O",
+        "Logging/Monitoring",
+        "Network/HTTP"
+      ],
+      "concern_count": 3,
+      "evidence": {
+        "File I/O": [
+          "imports os"
+        ],
+        "Network/HTTP": [
+          "imports flask"
+        ],
+        "Logging/Monitoring": [
+          "imports utils",
+          "imports logging"
+        ]
+      },
+      "reasoning": "**src/app.py** mixes 3 distinct concerns: File I/O, Logging/Monitoring, Network/HTTP. This violates the Single Responsibility Principle and makes the module harder to test, maintain, and reason about independently.",
+      "recommendation": "Separate app into concern-specific modules: file i/o.py, logging/monitoring.py, network/http.py."
+    }
+  ],
+  "circular_dependencies": [],
+  "god_modules": [
+    {
+      "file": "src/models.py",
+      "severity": "MEDIUM",
+      "risk_score": 6,
+      "function_count": 9,
+      "class_count": 4,
+      "total_lines": 118,
+      "reasons": [
+        "4 classes"
+      ],
+      "reasoning": "**src/models.py** shows god module characteristics: 4 classes. Large modules with many responsibilities become maintenance bottlenecks and resist safe modification.",
+      "recommendation": "Decompose models by identifying 2-3 cohesive groups of functions/classes and extracting each into its own module. Prioritize the highest-complexity functions for extraction first."
+    }
+  ],
+  "coupling_analysis": {
+    "coupling_density": 0.25,
+    "avg_fan_in": 1.0,
+    "avg_fan_out": 1.0,
+    "max_fan_in": 2,
+    "total_dependencies": 5,
+    "assessment": "Loosely coupled \u2014 good separation",
+    "instability_by_file": {
+      "src/utils.py": 0.0,
+      "src/routes.py": 0.5,
+      "tests/test_app.py": 1.0,
+      "src/models.py": 0.0,
+      "src/app.py": 0.75
+    }
+  },
+  "strategic_recommendations": [
+    {
+      "priority": 1,
+      "category": "Module Decomposition",
+      "target": "src/models.py",
+      "action": "Decompose models by identifying 2-3 cohesive groups of functions/classes and extracting each into its own module. Prioritize the highest-complexity functions for extraction first.",
+      "impact": "Reduces module from 118 lines to manageable units",
+      "effort": "HIGH"
+    },
+    {
+      "priority": 2,
+      "category": "Concern Separation",
+      "target": "src/app.py",
+      "action": "Separate app into concern-specific modules: file i/o.py, logging/monitoring.py, network/http.py.",
+      "impact": "Separates 3 mixed concerns for better testability",
+      "effort": "MEDIUM"
+    }
+  ],
+  "summary": "## Architecture Assessment\n\n**Detected Pattern:** Layered Architecture (confidence: 50%)\n**Architecture Score:** 83/100 (Grade: B)\n\nArchitecture is generally sound with room for targeted improvements.\n\n**God Modules:** 1 module(s) have too many responsibilities.\n\n**Mixed Concerns:** 1 module(s) mix multiple responsibility areas.\n\n**Top Priority:** Module Decomposition \u2014 Decompose models by identifying 2-3 cohesive groups of functions/classes and extracting each into its own module. Prioritize the highest-complexity functions for extraction first."
+}

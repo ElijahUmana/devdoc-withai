@@ -1,0 +1,1674 @@
+{
+  "project_name": "sample-project",
+  "analyzed_at": "2026-02-11T12:00:41.859494",
+  "root_path": "/Users/elijahumana/devdoc-withai-project/demo/sample-project",
+  "directory_tree": "sample-project/\n\u251c\u2500\u2500 README.md\n\u251c\u2500\u2500 requirements.txt\n\u251c\u2500\u2500 src/\n\u2502   \u251c\u2500\u2500 app.py\n\u2502   \u251c\u2500\u2500 models.py\n\u2502   \u251c\u2500\u2500 routes.py\n\u2502   \u251c\u2500\u2500 utils.py\n\u251c\u2500\u2500 tests/\n\u2502   \u2514\u2500\u2500 test_app.py",
+  "tech_stack": {
+    "languages": [
+      "Python"
+    ],
+    "frameworks": [],
+    "tools": [
+      "Python (pip)"
+    ]
+  },
+  "language_stats": {
+    "Python": {
+      "files": 5,
+      "lines": 401
+    }
+  },
+  "entry_points": [
+    "src/app.py"
+  ],
+  "config_contents": {
+    "README.md": "# TaskFlow API\n\nA lightweight REST API for task management. Built with Flask.\n\n## Quick Start\n\n```bash\npip install -r requirements.txt\npython src/app.py\n```\n\n## API Endpoints\n\n- `GET /health` \u2014 Health check\n- `GET /api/v1/tasks` \u2014 List all tasks\n- `POST /api/v1/tasks` \u2014 Create a task\n- `GET /api/v1/tasks/:id` \u2014 Get a task\n- `PATCH /api/v1/tasks/:id` \u2014 Update a task\n- `DELETE /api/v1/tasks/:id` \u2014 Delete a task\n- `GET /api/v1/tasks/stats` \u2014 Task statistics\n",
+    "requirements.txt": "flask==3.0.0\npython-dotenv==1.0.0\ngunicorn==21.2.0\npytest==7.4.3\n"
+  },
+  "dependencies": {
+    "python": [
+      "flask==3.0.0",
+      "python-dotenv==1.0.0",
+      "gunicorn==21.2.0",
+      "pytest==7.4.3"
+    ]
+  },
+  "file_analyses": [
+    {
+      "filepath": "tests/test_app.py",
+      "total_lines": 64,
+      "code_lines": 44,
+      "comment_lines": 2,
+      "blank_lines": 18,
+      "has_module_docstring": true,
+      "functions": [
+        {
+          "name": "client",
+          "signature": "client()",
+          "line": 8,
+          "end_line": 11,
+          "line_count": 4,
+          "complexity": 2,
+          "has_docstring": false,
+          "docstring_summary": null,
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [
+            "pytest.fixture"
+          ],
+          "param_count": 0,
+          "has_return_type": false,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 1,
+          "calls": [
+            "create_app",
+            "app.test_client"
+          ]
+        },
+        {
+          "name": "test_health_check",
+          "signature": "test_health_check(client)",
+          "line": 14,
+          "end_line": 18,
+          "line_count": 5,
+          "complexity": 3,
+          "has_docstring": false,
+          "docstring_summary": null,
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": false,
+          "typed_param_ratio": 0.0,
+          "nesting_depth": 0,
+          "calls": [
+            "client.get",
+            "response.get_json"
+          ]
+        },
+        {
+          "name": "test_create_task",
+          "signature": "test_create_task(client)",
+          "line": 21,
+          "end_line": 31,
+          "line_count": 11,
+          "complexity": 5,
+          "has_docstring": false,
+          "docstring_summary": null,
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": false,
+          "typed_param_ratio": 0.0,
+          "nesting_depth": 0,
+          "calls": [
+            "client.post",
+            "response.get_json"
+          ]
+        },
+        {
+          "name": "test_create_task_missing_title",
+          "signature": "test_create_task_missing_title(client)",
+          "line": 34,
+          "end_line": 38,
+          "line_count": 5,
+          "complexity": 2,
+          "has_docstring": false,
+          "docstring_summary": null,
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": false,
+          "typed_param_ratio": 0.0,
+          "nesting_depth": 0,
+          "calls": [
+            "client.post"
+          ]
+        },
+        {
+          "name": "test_list_tasks",
+          "signature": "test_list_tasks(client)",
+          "line": 41,
+          "end_line": 49,
+          "line_count": 9,
+          "complexity": 3,
+          "has_docstring": false,
+          "docstring_summary": null,
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": false,
+          "typed_param_ratio": 0.0,
+          "nesting_depth": 0,
+          "calls": [
+            "client.post",
+            "client.post",
+            "client.get",
+            "response.get_json"
+          ]
+        },
+        {
+          "name": "test_get_task_not_found",
+          "signature": "test_get_task_not_found(client)",
+          "line": 52,
+          "end_line": 54,
+          "line_count": 3,
+          "complexity": 2,
+          "has_docstring": false,
+          "docstring_summary": null,
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": false,
+          "typed_param_ratio": 0.0,
+          "nesting_depth": 0,
+          "calls": [
+            "client.get"
+          ]
+        },
+        {
+          "name": "test_delete_task",
+          "signature": "test_delete_task(client)",
+          "line": 57,
+          "end_line": 63,
+          "line_count": 7,
+          "complexity": 2,
+          "has_docstring": false,
+          "docstring_summary": null,
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": false,
+          "typed_param_ratio": 0.0,
+          "nesting_depth": 0,
+          "calls": [
+            "client.post",
+            "client.delete",
+            "create_resp.get_json"
+          ]
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "type": "import",
+          "names": [
+            "pytest"
+          ],
+          "line": 3
+        },
+        {
+          "type": "from_import",
+          "module": "app",
+          "names": [
+            "create_app"
+          ],
+          "line": 4
+        }
+      ],
+      "global_variables": [
+        {
+          "name": "app",
+          "line": 9
+        },
+        {
+          "name": "response",
+          "line": 15
+        },
+        {
+          "name": "data",
+          "line": 17
+        },
+        {
+          "name": "response",
+          "line": 22
+        },
+        {
+          "name": "data",
+          "line": 28
+        },
+        {
+          "name": "response",
+          "line": 35
+        },
+        {
+          "name": "response",
+          "line": 46
+        },
+        {
+          "name": "data",
+          "line": 48
+        },
+        {
+          "name": "response",
+          "line": 53
+        },
+        {
+          "name": "create_resp",
+          "line": 59
+        },
+        {
+          "name": "task_id",
+          "line": 60
+        },
+        {
+          "name": "delete_resp",
+          "line": 62
+        }
+      ],
+      "decorators_used": [
+        "pytest.fixture"
+      ],
+      "unused_imports": [],
+      "type_hint_coverage": 0.0,
+      "avg_complexity": 2.71,
+      "max_complexity": 5,
+      "function_count": 7,
+      "class_count": 0
+    },
+    {
+      "filepath": "src/models.py",
+      "total_lines": 118,
+      "code_lines": 97,
+      "comment_lines": 0,
+      "blank_lines": 21,
+      "has_module_docstring": true,
+      "functions": [
+        {
+          "name": "to_dict",
+          "signature": "to_dict(self) -> dict",
+          "line": 40,
+          "end_line": 51,
+          "line_count": 12,
+          "complexity": 1,
+          "has_docstring": false,
+          "docstring_summary": null,
+          "is_async": false,
+          "is_method": true,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 0,
+          "has_return_type": true,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 0,
+          "calls": [
+            "self.created_at.isoformat",
+            "self.updated_at.isoformat"
+          ]
+        },
+        {
+          "name": "from_dict",
+          "signature": "from_dict(cls, data: dict) -> 'Task'",
+          "line": 54,
+          "end_line": 62,
+          "line_count": 9,
+          "complexity": 1,
+          "has_docstring": false,
+          "docstring_summary": null,
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": true,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [
+            "classmethod"
+          ],
+          "param_count": 1,
+          "has_return_type": true,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 0,
+          "calls": [
+            "cls",
+            "data.get",
+            "Priority",
+            "Status",
+            "data.get",
+            "data.get",
+            "data.get",
+            "data.get"
+          ]
+        },
+        {
+          "name": "__init__",
+          "signature": "__init__(self, db_url: str = 'sqlite:///tasks.db')",
+          "line": 68,
+          "end_line": 70,
+          "line_count": 3,
+          "complexity": 1,
+          "has_docstring": false,
+          "docstring_summary": null,
+          "is_async": false,
+          "is_method": true,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": false,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 0,
+          "calls": []
+        },
+        {
+          "name": "create",
+          "signature": "create(self, task: Task) -> Task",
+          "line": 72,
+          "end_line": 75,
+          "line_count": 4,
+          "complexity": 1,
+          "has_docstring": true,
+          "docstring_summary": "Add a new task to the store.",
+          "is_async": false,
+          "is_method": true,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": true,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 0,
+          "calls": []
+        },
+        {
+          "name": "get",
+          "signature": "get(self, task_id: str) -> Optional[Task]",
+          "line": 77,
+          "end_line": 79,
+          "line_count": 3,
+          "complexity": 1,
+          "has_docstring": true,
+          "docstring_summary": "Retrieve a task by ID.",
+          "is_async": false,
+          "is_method": true,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": true,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 0,
+          "calls": [
+            "self._tasks.get"
+          ]
+        },
+        {
+          "name": "list_all",
+          "signature": "list_all(self, status: Optional[Status] = None, priority: Optional[Priority] = None) -> list[Task]",
+          "line": 81,
+          "end_line": 89,
+          "line_count": 9,
+          "complexity": 5,
+          "has_docstring": true,
+          "docstring_summary": "List tasks with optional filters.",
+          "is_async": false,
+          "is_method": true,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 2,
+          "has_return_type": true,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 1,
+          "calls": [
+            "list",
+            "sorted",
+            "self._tasks.values"
+          ]
+        },
+        {
+          "name": "update",
+          "signature": "update(self, task_id: str, updates: dict) -> Optional[Task]",
+          "line": 91,
+          "end_line": 106,
+          "line_count": 16,
+          "complexity": 6,
+          "has_docstring": true,
+          "docstring_summary": "Update a task's fields.",
+          "is_async": false,
+          "is_method": true,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 2,
+          "has_return_type": true,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 3,
+          "calls": [
+            "self._tasks.get",
+            "updates.items",
+            "datetime.now",
+            "hasattr",
+            "Priority",
+            "setattr",
+            "Status"
+          ]
+        },
+        {
+          "name": "delete",
+          "signature": "delete(self, task_id: str) -> bool",
+          "line": 108,
+          "end_line": 113,
+          "line_count": 6,
+          "complexity": 2,
+          "has_docstring": true,
+          "docstring_summary": "Delete a task by ID.",
+          "is_async": false,
+          "is_method": true,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": true,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 1,
+          "calls": []
+        },
+        {
+          "name": "count",
+          "signature": "count(self) -> int",
+          "line": 115,
+          "end_line": 117,
+          "line_count": 3,
+          "complexity": 1,
+          "has_docstring": true,
+          "docstring_summary": "Return total number of tasks.",
+          "is_async": false,
+          "is_method": true,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 0,
+          "has_return_type": true,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 0,
+          "calls": [
+            "len"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "Priority",
+          "line": 13,
+          "end_line": 17,
+          "line_count": 5,
+          "bases": [
+            "Enum"
+          ],
+          "has_docstring": false,
+          "docstring_summary": null,
+          "method_count": 0,
+          "methods": [],
+          "class_variables": [
+            "LOW",
+            "MEDIUM",
+            "HIGH",
+            "CRITICAL"
+          ],
+          "decorators": []
+        },
+        {
+          "name": "Status",
+          "line": 20,
+          "end_line": 24,
+          "line_count": 5,
+          "bases": [
+            "Enum"
+          ],
+          "has_docstring": false,
+          "docstring_summary": null,
+          "method_count": 0,
+          "methods": [],
+          "class_variables": [
+            "TODO",
+            "IN_PROGRESS",
+            "DONE",
+            "ARCHIVED"
+          ],
+          "decorators": []
+        },
+        {
+          "name": "Task",
+          "line": 28,
+          "end_line": 62,
+          "line_count": 35,
+          "bases": [],
+          "has_docstring": true,
+          "docstring_summary": "Represents a single task in the system.",
+          "method_count": 2,
+          "methods": [
+            "to_dict",
+            "from_dict"
+          ],
+          "class_variables": [
+            "title",
+            "description",
+            "priority",
+            "status",
+            "assignee",
+            "tags",
+            "id",
+            "created_at",
+            "updated_at"
+          ],
+          "decorators": [
+            "dataclass"
+          ]
+        },
+        {
+          "name": "TaskStore",
+          "line": 65,
+          "end_line": 117,
+          "line_count": 53,
+          "bases": [],
+          "has_docstring": true,
+          "docstring_summary": "In-memory task storage with CRUD operations.",
+          "method_count": 7,
+          "methods": [
+            "__init__",
+            "create",
+            "get",
+            "list_all",
+            "update",
+            "delete",
+            "count"
+          ],
+          "class_variables": [],
+          "decorators": []
+        }
+      ],
+      "imports": [
+        {
+          "type": "from_import",
+          "module": "dataclasses",
+          "names": [
+            "dataclass",
+            "field"
+          ],
+          "line": 6
+        },
+        {
+          "type": "from_import",
+          "module": "datetime",
+          "names": [
+            "datetime"
+          ],
+          "line": 7
+        },
+        {
+          "type": "from_import",
+          "module": "typing",
+          "names": [
+            "Optional"
+          ],
+          "line": 8
+        },
+        {
+          "type": "from_import",
+          "module": "enum",
+          "names": [
+            "Enum"
+          ],
+          "line": 9
+        },
+        {
+          "type": "import",
+          "names": [
+            "uuid"
+          ],
+          "line": 10
+        }
+      ],
+      "global_variables": [
+        {
+          "name": "LOW",
+          "line": 14
+        },
+        {
+          "name": "MEDIUM",
+          "line": 15
+        },
+        {
+          "name": "HIGH",
+          "line": 16
+        },
+        {
+          "name": "CRITICAL",
+          "line": 17
+        },
+        {
+          "name": "TODO",
+          "line": 21
+        },
+        {
+          "name": "IN_PROGRESS",
+          "line": 22
+        },
+        {
+          "name": "DONE",
+          "line": 23
+        },
+        {
+          "name": "ARCHIVED",
+          "line": 24
+        },
+        {
+          "name": "tasks",
+          "line": 84
+        },
+        {
+          "name": "tasks",
+          "line": 86
+        },
+        {
+          "name": "tasks",
+          "line": 88
+        },
+        {
+          "name": "task",
+          "line": 93
+        },
+        {
+          "name": "value",
+          "line": 99
+        },
+        {
+          "name": "value",
+          "line": 101
+        }
+      ],
+      "decorators_used": [
+        "classmethod"
+      ],
+      "unused_imports": [],
+      "type_hint_coverage": 0.94,
+      "avg_complexity": 2.11,
+      "max_complexity": 6,
+      "function_count": 9,
+      "class_count": 4
+    },
+    {
+      "filepath": "src/utils.py",
+      "total_lines": 63,
+      "code_lines": 49,
+      "comment_lines": 0,
+      "blank_lines": 14,
+      "has_module_docstring": true,
+      "functions": [
+        {
+          "name": "setup_logging",
+          "signature": "setup_logging(level: str = 'INFO') -> logging.Logger",
+          "line": 11,
+          "end_line": 25,
+          "line_count": 15,
+          "complexity": 2,
+          "has_docstring": true,
+          "docstring_summary": "Configure application logging with structured format.",
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": true,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 1,
+          "calls": [
+            "logging.getLogger",
+            "logger.setLevel",
+            "getattr",
+            "logging.StreamHandler",
+            "logging.Formatter",
+            "handler.setFormatter",
+            "logger.addHandler",
+            "level.upper"
+          ]
+        },
+        {
+          "name": "validate_config",
+          "signature": "validate_config(config: dict[str, Any]) -> None",
+          "line": 28,
+          "end_line": 38,
+          "line_count": 11,
+          "complexity": 5,
+          "has_docstring": true,
+          "docstring_summary": "Validate that required configuration values are present and valid.",
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": true,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 2,
+          "calls": [
+            "config.get",
+            "logging.getLogger('taskflow').warning",
+            "ValueError",
+            "logging.getLogger"
+          ]
+        },
+        {
+          "name": "paginate",
+          "signature": "paginate(items: list, page: int = 1, per_page: int = 20) -> dict",
+          "line": 41,
+          "end_line": 55,
+          "line_count": 15,
+          "complexity": 1,
+          "has_docstring": true,
+          "docstring_summary": "Paginate a list of items.",
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 3,
+          "has_return_type": true,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 0,
+          "calls": [
+            "len"
+          ]
+        },
+        {
+          "name": "sanitize_input",
+          "signature": "sanitize_input(text: str, max_length: int = 500) -> str",
+          "line": 58,
+          "end_line": 62,
+          "line_count": 5,
+          "complexity": 2,
+          "has_docstring": true,
+          "docstring_summary": "Basic input sanitization.",
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 2,
+          "has_return_type": true,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 1,
+          "calls": [
+            "isinstance",
+            "str",
+            "text.strip"
+          ]
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "type": "import",
+          "names": [
+            "logging"
+          ],
+          "line": 6
+        },
+        {
+          "type": "import",
+          "names": [
+            "sys"
+          ],
+          "line": 7
+        },
+        {
+          "type": "from_import",
+          "module": "typing",
+          "names": [
+            "Any"
+          ],
+          "line": 8
+        }
+      ],
+      "global_variables": [
+        {
+          "name": "logger",
+          "line": 13
+        },
+        {
+          "name": "handler",
+          "line": 17
+        },
+        {
+          "name": "formatter",
+          "line": 18
+        },
+        {
+          "name": "required_keys",
+          "line": 30
+        },
+        {
+          "name": "total",
+          "line": 43
+        },
+        {
+          "name": "start",
+          "line": 44
+        },
+        {
+          "name": "end",
+          "line": 45
+        }
+      ],
+      "decorators_used": [],
+      "unused_imports": [],
+      "type_hint_coverage": 1.0,
+      "avg_complexity": 2.5,
+      "max_complexity": 5,
+      "function_count": 4,
+      "class_count": 0
+    },
+    {
+      "filepath": "src/app.py",
+      "total_lines": 52,
+      "code_lines": 33,
+      "comment_lines": 4,
+      "blank_lines": 15,
+      "has_module_docstring": true,
+      "functions": [
+        {
+          "name": "create_app",
+          "signature": "create_app(config = None)",
+          "line": 18,
+          "end_line": 45,
+          "line_count": 28,
+          "complexity": 2,
+          "has_docstring": true,
+          "docstring_summary": "Application factory pattern.",
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": false,
+          "typed_param_ratio": 0.0,
+          "nesting_depth": 1,
+          "calls": [
+            "Flask",
+            "os.environ.get",
+            "os.environ.get",
+            "int",
+            "validate_config",
+            "TaskStore",
+            "register_routes",
+            "app.route",
+            "logger.info",
+            "os.environ.get",
+            "app.config.update",
+            "jsonify"
+          ]
+        },
+        {
+          "name": "health",
+          "signature": "health()",
+          "line": 41,
+          "end_line": 42,
+          "line_count": 2,
+          "complexity": 1,
+          "has_docstring": false,
+          "docstring_summary": null,
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [
+            "app.route('/health')"
+          ],
+          "param_count": 0,
+          "has_return_type": false,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 0,
+          "calls": [
+            "app.route",
+            "jsonify"
+          ]
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "type": "from_import",
+          "module": "flask",
+          "names": [
+            "Flask",
+            "jsonify",
+            "request"
+          ],
+          "line": 6
+        },
+        {
+          "type": "from_import",
+          "module": "models",
+          "names": [
+            "TaskStore",
+            "Task"
+          ],
+          "line": 7
+        },
+        {
+          "type": "from_import",
+          "module": "routes",
+          "names": [
+            "register_routes"
+          ],
+          "line": 8
+        },
+        {
+          "type": "from_import",
+          "module": "utils",
+          "names": [
+            "setup_logging",
+            "validate_config"
+          ],
+          "line": 9
+        },
+        {
+          "type": "import",
+          "names": [
+            "os"
+          ],
+          "line": 11
+        },
+        {
+          "type": "import",
+          "names": [
+            "logging"
+          ],
+          "line": 12
+        }
+      ],
+      "global_variables": [
+        {
+          "name": "app",
+          "line": 14
+        },
+        {
+          "name": "logger",
+          "line": 15
+        },
+        {
+          "name": "app",
+          "line": 20
+        },
+        {
+          "name": "store",
+          "line": 33
+        },
+        {
+          "name": "app",
+          "line": 49
+        },
+        {
+          "name": "port",
+          "line": 50
+        }
+      ],
+      "decorators_used": [
+        "app.route"
+      ],
+      "unused_imports": [
+        "Task",
+        "logging",
+        "request"
+      ],
+      "type_hint_coverage": 0.0,
+      "avg_complexity": 1.5,
+      "max_complexity": 2,
+      "function_count": 2,
+      "class_count": 0
+    },
+    {
+      "filepath": "src/routes.py",
+      "total_lines": 109,
+      "code_lines": 76,
+      "comment_lines": 0,
+      "blank_lines": 33,
+      "has_module_docstring": true,
+      "functions": [
+        {
+          "name": "register_routes",
+          "signature": "register_routes(app)",
+          "line": 12,
+          "end_line": 14,
+          "line_count": 3,
+          "complexity": 1,
+          "has_docstring": true,
+          "docstring_summary": "Register all route blueprints with the Flask application.",
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [],
+          "param_count": 1,
+          "has_return_type": false,
+          "typed_param_ratio": 0.0,
+          "nesting_depth": 0,
+          "calls": [
+            "app.register_blueprint"
+          ]
+        },
+        {
+          "name": "list_tasks",
+          "signature": "list_tasks()",
+          "line": 18,
+          "end_line": 32,
+          "line_count": 15,
+          "complexity": 4,
+          "has_docstring": true,
+          "docstring_summary": "List all tasks with optional filtering.",
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [
+            "api.route('/tasks', methods=['GET'])"
+          ],
+          "param_count": 0,
+          "has_return_type": false,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 0,
+          "calls": [
+            "api.route",
+            "request.args.get",
+            "request.args.get",
+            "store.list_all",
+            "jsonify",
+            "Status",
+            "Priority",
+            "len",
+            "t.to_dict"
+          ]
+        },
+        {
+          "name": "create_task",
+          "signature": "create_task()",
+          "line": 36,
+          "end_line": 46,
+          "line_count": 11,
+          "complexity": 3,
+          "has_docstring": true,
+          "docstring_summary": "Create a new task.",
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [
+            "api.route('/tasks', methods=['POST'])"
+          ],
+          "param_count": 0,
+          "has_return_type": false,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 1,
+          "calls": [
+            "api.route",
+            "request.get_json",
+            "Task.from_dict",
+            "store.create",
+            "jsonify",
+            "jsonify",
+            "task.to_dict"
+          ]
+        },
+        {
+          "name": "get_task",
+          "signature": "get_task(task_id)",
+          "line": 50,
+          "end_line": 58,
+          "line_count": 9,
+          "complexity": 2,
+          "has_docstring": true,
+          "docstring_summary": "Get a single task by ID.",
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [
+            "api.route('/tasks/<task_id>', methods=['GET'])"
+          ],
+          "param_count": 1,
+          "has_return_type": false,
+          "typed_param_ratio": 0.0,
+          "nesting_depth": 1,
+          "calls": [
+            "api.route",
+            "store.get",
+            "jsonify",
+            "task.to_dict",
+            "jsonify"
+          ]
+        },
+        {
+          "name": "update_task",
+          "signature": "update_task(task_id)",
+          "line": 62,
+          "end_line": 74,
+          "line_count": 13,
+          "complexity": 3,
+          "has_docstring": true,
+          "docstring_summary": "Update a task's fields.",
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [
+            "api.route('/tasks/<task_id>', methods=['PATCH'])"
+          ],
+          "param_count": 1,
+          "has_return_type": false,
+          "typed_param_ratio": 0.0,
+          "nesting_depth": 1,
+          "calls": [
+            "api.route",
+            "request.get_json",
+            "store.update",
+            "jsonify",
+            "task.to_dict",
+            "jsonify",
+            "jsonify"
+          ]
+        },
+        {
+          "name": "delete_task",
+          "signature": "delete_task(task_id)",
+          "line": 78,
+          "end_line": 85,
+          "line_count": 8,
+          "complexity": 2,
+          "has_docstring": true,
+          "docstring_summary": "Delete a task.",
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [
+            "api.route('/tasks/<task_id>', methods=['DELETE'])"
+          ],
+          "param_count": 1,
+          "has_return_type": false,
+          "typed_param_ratio": 0.0,
+          "nesting_depth": 1,
+          "calls": [
+            "api.route",
+            "store.delete",
+            "jsonify",
+            "jsonify"
+          ]
+        },
+        {
+          "name": "task_stats",
+          "signature": "task_stats()",
+          "line": 89,
+          "end_line": 108,
+          "line_count": 20,
+          "complexity": 5,
+          "has_docstring": true,
+          "docstring_summary": "Get task statistics.",
+          "is_async": false,
+          "is_method": false,
+          "is_classmethod": false,
+          "is_staticmethod": false,
+          "is_property": false,
+          "decorators": [
+            "api.route('/tasks/stats', methods=['GET'])"
+          ],
+          "param_count": 0,
+          "has_return_type": false,
+          "typed_param_ratio": 1.0,
+          "nesting_depth": 1,
+          "calls": [
+            "api.route",
+            "store.list_all",
+            "jsonify",
+            "len",
+            "len",
+            "len"
+          ]
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "type": "from_import",
+          "module": "flask",
+          "names": [
+            "Blueprint",
+            "jsonify",
+            "request",
+            "current_app"
+          ],
+          "line": 6
+        },
+        {
+          "type": "from_import",
+          "module": "models",
+          "names": [
+            "Task",
+            "Status",
+            "Priority"
+          ],
+          "line": 7
+        }
+      ],
+      "global_variables": [
+        {
+          "name": "api",
+          "line": 9
+        },
+        {
+          "name": "store",
+          "line": 20
+        },
+        {
+          "name": "status_filter",
+          "line": 22
+        },
+        {
+          "name": "priority_filter",
+          "line": 23
+        },
+        {
+          "name": "status",
+          "line": 25
+        },
+        {
+          "name": "priority",
+          "line": 26
+        },
+        {
+          "name": "tasks",
+          "line": 28
+        },
+        {
+          "name": "store",
+          "line": 38
+        },
+        {
+          "name": "data",
+          "line": 39
+        },
+        {
+          "name": "task",
+          "line": 44
+        },
+        {
+          "name": "store",
+          "line": 52
+        },
+        {
+          "name": "task",
+          "line": 53
+        },
+        {
+          "name": "store",
+          "line": 64
+        },
+        {
+          "name": "data",
+          "line": 65
+        },
+        {
+          "name": "task",
+          "line": 70
+        },
+        {
+          "name": "store",
+          "line": 80
+        },
+        {
+          "name": "store",
+          "line": 91
+        },
+        {
+          "name": "all_tasks",
+          "line": 92
+        },
+        {
+          "name": "stats",
+          "line": 94
+        },
+        {
+          "name": "count",
+          "line": 101
+        },
+        {
+          "name": "count",
+          "line": 105
+        }
+      ],
+      "decorators_used": [
+        "api.route"
+      ],
+      "unused_imports": [],
+      "type_hint_coverage": 0.0,
+      "avg_complexity": 2.86,
+      "max_complexity": 5,
+      "function_count": 7,
+      "class_count": 0
+    }
+  ],
+  "dependency_graph": {
+    "edges": {
+      "tests/test_app.py": [
+        "src/app.py"
+      ],
+      "src/app.py": [
+        "src/models.py",
+        "src/routes.py",
+        "src/utils.py"
+      ],
+      "src/routes.py": [
+        "src/models.py"
+      ]
+    },
+    "reverse_edges": {
+      "src/app.py": [
+        "tests/test_app.py"
+      ],
+      "src/models.py": [
+        "src/app.py",
+        "src/routes.py"
+      ],
+      "src/routes.py": [
+        "src/app.py"
+      ],
+      "src/utils.py": [
+        "src/app.py"
+      ]
+    },
+    "fan_metrics": {
+      "src/utils.py": {
+        "fan_out": 0,
+        "fan_in": 1,
+        "depends_on": [],
+        "depended_by": [
+          "src/app.py"
+        ]
+      },
+      "src/routes.py": {
+        "fan_out": 1,
+        "fan_in": 1,
+        "depends_on": [
+          "src/models.py"
+        ],
+        "depended_by": [
+          "src/app.py"
+        ]
+      },
+      "tests/test_app.py": {
+        "fan_out": 1,
+        "fan_in": 0,
+        "depends_on": [
+          "src/app.py"
+        ],
+        "depended_by": []
+      },
+      "src/models.py": {
+        "fan_out": 0,
+        "fan_in": 2,
+        "depends_on": [],
+        "depended_by": [
+          "src/app.py",
+          "src/routes.py"
+        ]
+      },
+      "src/app.py": {
+        "fan_out": 3,
+        "fan_in": 1,
+        "depends_on": [
+          "src/models.py",
+          "src/routes.py",
+          "src/utils.py"
+        ],
+        "depended_by": [
+          "tests/test_app.py"
+        ]
+      }
+    }
+  },
+  "project_metrics": {
+    "avg_complexity": 2.45,
+    "max_complexity": 6,
+    "median_complexity": 2,
+    "avg_function_length": 9.1,
+    "max_function_length": 28,
+    "docstring_coverage": 0.62,
+    "type_hint_coverage": 0.39,
+    "complexity_distribution": {
+      "low (1-5)": 28,
+      "medium (6-10)": 1,
+      "high (11-15)": 0,
+      "critical (>15)": 0
+    },
+    "hotspot_functions": [
+      {
+        "name": "update",
+        "file": "src/models.py",
+        "complexity": 6,
+        "line": 91,
+        "line_count": 16
+      },
+      {
+        "name": "test_create_task",
+        "file": "tests/test_app.py",
+        "complexity": 5,
+        "line": 21,
+        "line_count": 11
+      },
+      {
+        "name": "list_all",
+        "file": "src/models.py",
+        "complexity": 5,
+        "line": 81,
+        "line_count": 9
+      },
+      {
+        "name": "validate_config",
+        "file": "src/utils.py",
+        "complexity": 5,
+        "line": 28,
+        "line_count": 11
+      },
+      {
+        "name": "task_stats",
+        "file": "src/routes.py",
+        "complexity": 5,
+        "line": 89,
+        "line_count": 20
+      },
+      {
+        "name": "list_tasks",
+        "file": "src/routes.py",
+        "complexity": 4,
+        "line": 18,
+        "line_count": 15
+      },
+      {
+        "name": "test_health_check",
+        "file": "tests/test_app.py",
+        "complexity": 3,
+        "line": 14,
+        "line_count": 5
+      },
+      {
+        "name": "test_list_tasks",
+        "file": "tests/test_app.py",
+        "complexity": 3,
+        "line": 41,
+        "line_count": 9
+      },
+      {
+        "name": "create_task",
+        "file": "src/routes.py",
+        "complexity": 3,
+        "line": 36,
+        "line_count": 11
+      },
+      {
+        "name": "update_task",
+        "file": "src/routes.py",
+        "complexity": 3,
+        "line": 62,
+        "line_count": 13
+      }
+    ],
+    "longest_functions": [
+      {
+        "name": "create_app",
+        "file": "src/app.py",
+        "line_count": 28,
+        "complexity": 2,
+        "line": 18
+      },
+      {
+        "name": "task_stats",
+        "file": "src/routes.py",
+        "line_count": 20,
+        "complexity": 5,
+        "line": 89
+      },
+      {
+        "name": "update",
+        "file": "src/models.py",
+        "line_count": 16,
+        "complexity": 6,
+        "line": 91
+      },
+      {
+        "name": "setup_logging",
+        "file": "src/utils.py",
+        "line_count": 15,
+        "complexity": 2,
+        "line": 11
+      },
+      {
+        "name": "paginate",
+        "file": "src/utils.py",
+        "line_count": 15,
+        "complexity": 1,
+        "line": 41
+      },
+      {
+        "name": "list_tasks",
+        "file": "src/routes.py",
+        "line_count": 15,
+        "complexity": 4,
+        "line": 18
+      },
+      {
+        "name": "update_task",
+        "file": "src/routes.py",
+        "line_count": 13,
+        "complexity": 3,
+        "line": 62
+      },
+      {
+        "name": "to_dict",
+        "file": "src/models.py",
+        "line_count": 12,
+        "complexity": 1,
+        "line": 40
+      },
+      {
+        "name": "test_create_task",
+        "file": "tests/test_app.py",
+        "line_count": 11,
+        "complexity": 5,
+        "line": 21
+      },
+      {
+        "name": "validate_config",
+        "file": "src/utils.py",
+        "line_count": 11,
+        "complexity": 5,
+        "line": 28
+      }
+    ],
+    "total_functions": 29,
+    "total_classes": 4
+  },
+  "all_files": [
+    {
+      "path": "tests/test_app.py",
+      "language": "Python",
+      "lines": 63
+    },
+    {
+      "path": "src/models.py",
+      "language": "Python",
+      "lines": 117
+    },
+    {
+      "path": "src/utils.py",
+      "language": "Python",
+      "lines": 62
+    },
+    {
+      "path": "src/app.py",
+      "language": "Python",
+      "lines": 51
+    },
+    {
+      "path": "src/routes.py",
+      "language": "Python",
+      "lines": 108
+    }
+  ],
+  "summary": {
+    "total_files": 5,
+    "total_python_files": 5,
+    "total_lines": 401,
+    "total_code_lines": 299,
+    "total_functions": 29,
+    "total_classes": 4,
+    "has_tests": true,
+    "has_ci": false
+  }
+}

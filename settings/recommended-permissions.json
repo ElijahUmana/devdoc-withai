@@ -1,0 +1,20 @@
+{
+    "description": "Recommended Claude Code permission settings for DevDoc Intelligence Platform. Apply via WithAI's Settings panel.",
+    "permissions": {
+        "code_execution": {
+            "enabled": true,
+            "risk_level": "high",
+            "rationale": "Required to run analysis scripts. All scripts are read-only."
+        },
+        "file_operations": {
+            "enabled": true,
+            "risk_level": "medium",
+            "rationale": "Read source files, write docs and reports."
+        },
+        "web_access": {
+            "enabled": false,
+            "risk_level": "low",
+            "rationale": "All analysis is from code, not web."
+        }
+    }
+}
