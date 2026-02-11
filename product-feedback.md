@@ -1,115 +1,54 @@
-# WithAI Extension — Product Feedback
+# WithAI Product Feedback
 
-> From building 3 custom abilities and using every feature over several hours.
-> Extension v0.1.9 | VS Code on macOS | February 2026
-
----
-
-## What Felt Confusing or Broken
-
-### 1. The abilities system is the best feature but nearly invisible
-
-The abilities architecture — SKILL.md + scripts + register/publish — is genuinely powerful and differentiating. But I found it almost by accident. The extension marketplace listing barely mentions it. The Settings panel doesn't reference it. The welcome flow doesn't introduce it.
-
-I had to:
-- Dig into `~/.vscode/extensions/withai-research.withai-extension-0.1.9/out/bundled-skills/` to find the `ability-creator` SKILL.md
-- Read that file end-to-end to understand the `~/.withai/abilities/{org}/{ability}/` path structure
-- Figure out by trial and error that you need an org-level directory before the ability directory
-
-A new user would likely use the WYSIWYG editor, think "nice markdown editor," and never discover that abilities exist. That's a huge missed opportunity.
-
-### 2. `withai.abilities.setup` does nothing visible
-
-I ran "WithAI: Setup Abilities (Join Organization)" from the command palette. Nothing happened. No dialog, no notification, no error. Looking at `~/.withai/config.json` afterward, `organization` is `null` and `enabled` is `false`. I still don't know what this command is supposed to do versus what it actually did.
-
-### 3. Settings panel shows toggles but not their current state
-
-When I open the Settings panel via the gear icon, I see permission groups with risk levels (Code Execution: high, Web Access: low, etc.). But there's no clear indication of what's currently enabled vs disabled for my workspace. I toggled things on and off but wasn't confident the changes stuck.
-
-### 4. `generate-pdf-from-md` requires `reportlab` but doesn't say so upfront
-
-The bundled PDF skill fails with `ModuleNotFoundError: No module named 'reportlab'` on first run. There's no pre-check, no helpful error message suggesting `pip install reportlab`, and no auto-install. I had to read the traceback, install the package manually, and also figure out which Python interpreter it needed (`/usr/local/bin/python3` vs conda's python).
-
-### 5. No WYSIWYG table insertion
-
-The editor renders existing Markdown tables beautifully. But there's no toolbar button to *create* a new table. I had to switch to raw Markdown, type the pipe syntax manually, then switch back. Defeats the WYSIWYG purpose for tables.
+> Extension v0.1.9 | macOS | February 2026
 
 ---
 
-## What I Would Change Immediately
+## What Works Well
 
-### 1. Add an "Abilities" tab to the Settings panel
-Show:
-- List of installed abilities with status (registered / unregistered)
-- "Create New Ability" button that runs `withai.abilities.create`
-- Link to the agentskills.io docs
-- Sync status and last sync time
+**The abilities system is the standout feature.** The SKILL.md + scripts architecture, the agentskills.io spec, and the create → register → publish flow are well-designed. Registration automatically injects ability descriptions into `~/.claude/CLAUDE.md` so Claude knows when to invoke them — that's elegant. I built 3 abilities with Python scripts and the whole process felt intentional and well-structured.
 
-This single change would make abilities discoverable.
+**WYSIWYG editor is immediately useful.** Setting `*.md` to default to `withai.markdownEditor` eliminated the constant switching between raw Markdown and preview. Tables, headings, and code blocks render cleanly. This is the feature that makes WithAI feel like a real workspace upgrade rather than just another extension.
 
-### 2. First-run onboarding walkthrough
-After install, show a 3-step guided tour:
-1. "Open any `.md` file → you're using the WYSIWYG editor"
-2. "Click the gear icon → configure Claude Code permissions"
-3. "Create your first ability → here's how"
-
-### 3. Show ability descriptions inline
-When registered abilities appear in `~/.claude/CLAUDE.md`, the descriptions are shown in a table. But this file is hidden from most users. Surface the same descriptions in the Settings panel or a sidebar view.
-
-### 4. Dependency pre-check for bundled skills
-Before running `md_to_pdf.py`, check if `reportlab` is importable. If not, show a notification: "The PDF skill requires reportlab. Install it? [Yes] [No]"
+**Workspace setup is frictionless.** One command to bootstrap `.claude/CLAUDE.md` with sensible defaults. Smart default behavior.
 
 ---
 
-## Features I Would Add
+## What I'd Change Immediately
 
-### 1. Ability chaining
-Let abilities declare dependencies on other abilities. My `doc-generator` produces Markdown → it should be able to automatically invoke `generate-pdf-from-md` as its final step without the user knowing about both separately.
+### 1. Surface abilities in the UI
+The abilities system is the most powerful feature but has zero UI presence. It lives entirely in the command palette and CLI. Add an "Abilities" section to the Settings panel — show installed abilities, their registration status, and a "Create New" button. Right now, a user has to stumble onto it or read extension source code to discover it exists.
 
-### 2. Ability marketplace / gallery
-A curated gallery of community abilities installable with one click. Like npm for Claude Code skills. This would:
-- Give new users something useful on day one
-- Create ecosystem and community
-- Provide templates for ability creators
+### 2. Pre-check dependencies for bundled skills
+The `generate-pdf-from-md` skill crashes with `ModuleNotFoundError: No module named 'reportlab'` on first run. Before executing, check if the dependency is available and prompt: "This skill requires reportlab. Install it?" One line of pre-validation would save every new user from debugging an import error.
 
-### 3. Live collaborative editing indicators
-When Claude Code is writing to a `.md` file while it's open in the WYSIWYG editor, show a visible cursor with a "Claude" label. Users would be able to watch the AI write in real-time. This would be a genuinely magical UX moment.
+### 3. Show what permissions are actually active
+The Settings panel shows permission toggles with risk levels, but after toggling, there's no confirmation of current state. When I reopen the panel, I can't tell what's enabled. Show a clear on/off indicator per permission group.
 
-### 4. Ability usage analytics
-Track how often each ability is triggered, average execution time, and success/failure rate. Surface this in the Settings panel so creators can iterate.
+### 4. WYSIWYG table creation
+The editor renders tables well, but there's no way to *insert* a new table from the toolbar. Users have to drop into raw Markdown syntax. A simple "Insert Table" grid picker (like Google Docs) would complete the WYSIWYG experience.
 
 ---
 
-## UX / Workflow Improvements
+## Features I'd Add
 
-1. **Keyboard shortcut for Settings panel** — No keybinding exists. Add `Cmd+Shift+W` or similar.
+1. **Ability chaining** — Let abilities declare dependencies on other abilities. My doc-generator's output is Markdown that should flow into `generate-pdf-from-md` automatically instead of requiring a separate manual step.
 
-2. **Notification after workspace setup** — When `withai.setupWorkspace` creates `.claude/CLAUDE.md`, show a notification: "WithAI set up your workspace. [View CLAUDE.md] [Configure Settings]". Currently it happens silently.
+2. **Ability marketplace** — A curated gallery of community abilities installable with one click. This would bootstrap new users with useful abilities on day one and create an ecosystem.
 
-3. **"Open in WYSIWYG" CodeLens** — Add a clickable CodeLens at the top of `.md` files: "Open in WithAI Editor" — helps users who haven't set it as default discover the feature.
+3. **Status bar presence** — A small indicator showing `WithAI: 3 abilities synced` would make the extension feel alive. Currently after setup it's invisible unless you open the command palette.
 
-4. **Status bar indicator** — Show a small status bar item: `WithAI: 3 abilities | Synced`. Makes the extension feel alive and present.
-
-5. **Dark mode contrast** — Check the Settings panel webview against popular dark themes (One Dark Pro, GitHub Dark Dimmed). Some text was hard to read.
+4. **Live editing indicator** — When Claude Code writes to a `.md` file while it's open in the WYSIWYG editor, show a cursor with a "Claude" label so the user can watch the AI write in real-time.
 
 ---
 
 ## What Slowed Me Down
 
-1. **Finding abilities documentation** — No dedicated docs page. Everything lives in the bundled SKILL.md files inside the extension directory. Had to `find ~/.vscode/extensions -path '*withai*' -name 'SKILL.md'` to find them.
-
-2. **Path structure confusion** — `~/.withai/abilities/{org}/{ability}/` requires the org-name level directory. I initially tried `~/.withai/abilities/my-ability/` and registration couldn't find it.
-
-3. **Two Python interpreters** — My system has conda Python and `/usr/local/bin/python3`. The PDF skill needed reportlab installed on the right one. No guidance from the extension about which Python is being used.
-
-4. **No end-to-end tutorial** — The ability-creator SKILL.md documents the spec well but doesn't walk through "here's a complete ability from empty directory to registered and working." A 2-minute screencast or step-by-step guide would save hours.
+- **Abilities documentation lives only in bundled SKILL.md files.** I had to find them inside `~/.vscode/extensions/`. A docs page or even a README section in the marketplace listing would help.
+- **No end-to-end ability tutorial.** The spec is documented, but a complete walkthrough — "empty directory to registered and working in 5 minutes" — would cut onboarding time significantly.
 
 ---
 
 ## Summary
 
-**The core insight is right**: an AI workspace needs more than a chat panel. WithAI's abilities system is genuinely novel — I haven't seen anything like it in other AI coding tools. The agentskills.io spec, the create → register → publish flow, and the auto-injection into `~/.claude/CLAUDE.md` are well-designed.
-
-**The gap is discoverability.** The most powerful feature is the hardest to find. A new user sees "nice markdown editor" and misses the entire platform. Closing that gap — through UI surfacing, onboarding, and documentation — would dramatically change how people perceive and use the product.
-
-The WYSIWYG editor and Settings panel are solid table-stakes features. The abilities system is the moat. Invest there.
+WithAI's core bet — that AI workspaces need structure beyond a chat panel — is right. The abilities system is genuinely differentiated from anything else in the AI coding tool market. The main gap is discoverability: the most powerful feature is the hardest to find. Closing that gap through UI surfacing and onboarding would change how people perceive and use the product.

@@ -118,20 +118,20 @@ devdoc-withai-project/
 │   ├── codebase-analyzer/            # Ability 1: Deep static analysis
 │   │   ├── SKILL.md                  # agentskills.io ability definition
 │   │   └── scripts/
-│   │       ├── analyze.py            # Core AST parser (888 lines)
-│   │       ├── security_scanner.py   # 70+ vulnerability patterns (398 lines)
-│   │       ├── ai_governance.py      # AI code pattern detection (524 lines)
-│   │       ├── architecture_reasoner.py  # Strategic insights (694 lines)
-│   │       ├── git_tracker.py        # Commit velocity, churn (412 lines)
-│   │       └── snapshot_manager.py   # Historical trend tracking (341 lines)
+│   │       ├── analyze.py            # Core AST parser
+│   │       ├── security_scanner.py   # Vulnerability pattern detection
+│   │       ├── ai_governance.py      # AI code pattern detection
+│   │       ├── architecture_reasoner.py  # Architectural insights
+│   │       ├── git_tracker.py        # Commit velocity, churn
+│   │       └── snapshot_manager.py   # Historical trend tracking
 │   ├── doc-generator/                # Ability 2: Documentation generation
 │   │   ├── SKILL.md
 │   │   └── scripts/
-│   │       └── generate_docs.py      # Mermaid diagrams, dashboards (554 lines)
+│   │       └── generate_docs.py      # Mermaid diagrams, dashboards
 │   └── review-reporter/             # Ability 3: Governance reports
 │       ├── SKILL.md
 │       └── scripts/
-│           └── generate_report.py    # Scored report cards (527 lines)
+│           └── generate_report.py    # Scored report cards
 ├── automation/
 │   ├── devdoc-action.yml             # GitHub Action for CI/CD integration
 │   └── devdoc-hook.sh                # Git pre-commit hook
@@ -170,7 +170,7 @@ This is **not** a line counter. It performs real compiler-level analysis:
 | `git_tracker.py` | Commit velocity, file churn, hotspots | Parses `git log` output, computes change frequency and author distribution |
 | `snapshot_manager.py` | Historical trends, regression detection | Saves/loads/diffs analysis snapshots over time |
 
-Total: **4,338 lines of Python** using only the standard library (no pip dependencies).
+All scripts use only the Python standard library — no pip dependencies required.
 
 ## Installation (For Your Own Projects)
 
