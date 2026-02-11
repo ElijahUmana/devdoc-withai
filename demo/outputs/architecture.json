@@ -44,15 +44,15 @@
       ],
       "concern_count": 3,
       "evidence": {
+        "Logging/Monitoring": [
+          "imports utils",
+          "imports logging"
+        ],
         "File I/O": [
           "imports os"
         ],
         "Network/HTTP": [
           "imports flask"
-        ],
-        "Logging/Monitoring": [
-          "imports utils",
-          "imports logging"
         ]
       },
       "reasoning": "**src/app.py** mixes 3 distinct concerns: File I/O, Logging/Monitoring, Network/HTTP. This violates the Single Responsibility Principle and makes the module harder to test, maintain, and reason about independently.",
@@ -85,9 +85,9 @@
     "instability_by_file": {
       "src/utils.py": 0.0,
       "src/routes.py": 0.5,
+      "src/app.py": 0.75,
       "tests/test_app.py": 1.0,
-      "src/models.py": 0.0,
-      "src/app.py": 0.75
+      "src/models.py": 0.0
     }
   },
   "strategic_recommendations": [

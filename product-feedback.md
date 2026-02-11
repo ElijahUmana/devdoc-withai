@@ -1,116 +1,115 @@
 # WithAI Extension — Product Feedback
 
-> Real feedback from building 3 custom abilities and exploring the extension.
-> Extension version: 0.1.9 | macOS | Date: February 11, 2026
-
----
-
-## What I Actually Built
-
-I created **DevDoc**, a suite of 3 WithAI abilities for codebase governance:
-- **codebase-analyzer**: AST analysis, security scanning, AI pattern detection
-- **doc-generator**: Mermaid diagrams, health dashboards
-- **review-reporter**: Scored report cards, risk assessment
-
-Total: 4,338 lines of Python across 8 scripts. All registered and working.
-
----
-
-## What Works Well
-
-### 1. Abilities System Architecture
-The separation of `SKILL.md` (instructions) + `scripts/` (execution) is clean. The registration flow via `node ~/.claude/skills/ability-creator/scripts/register.js` works smoothly — validation is instant, and updating `~/.claude/CLAUDE.md` automatically is the right design.
-
-### 2. Organization-Based Namespacing  
-Having abilities in `~/.withai/abilities/{org-name}/{ability-name}/` makes sense for team collaboration. My abilities went into `devdoc/` cleanly.
-
-### 3. Settings File Association
-Setting `*.md` to open with `withai.markdownEditor` in VS Code settings worked automatically — didn't have to configure anything manually.
-
-### 4. Workspace Setup Automation
-`withai.setupWorkspace` correctly created `.claude/CLAUDE.md` in my project. One command to bootstrap a project.
+> From building 3 custom abilities and using every feature over several hours.
+> Extension v0.1.9 | VS Code on macOS | February 2026
 
 ---
 
 ## What Felt Confusing or Broken
 
-### 1. Abilities Discovery is Hidden
-The abilities system is powerful but completely undiscoverable from the UI. I had to:
-- Read the bundled ability-creator SKILL.md to understand how abilities work
-- Manually find `~/.withai/abilities/` path structure
-- Figure out the org-name/ability-name hierarchy by trial and error
+### 1. The abilities system is the best feature but nearly invisible
 
-**Fix**: Add an "Abilities" section to the Settings panel showing installed abilities and a "Create New" button.
+The abilities architecture — SKILL.md + scripts + register/publish — is genuinely powerful and differentiating. But I found it almost by accident. The extension marketplace listing barely mentions it. The Settings panel doesn't reference it. The welcome flow doesn't introduce it.
 
-### 2. Settings Panel Doesn't Show Much
-I opened the Settings panel via the gear icon multiple times. It shows permission toggles, but:
-- No indication of what's currently enabled
-- No connection to my registered abilities
-- No visibility into sync status or organization
+I had to:
+- Dig into `~/.vscode/extensions/withai-research.withai-extension-0.1.9/out/bundled-skills/` to find the `ability-creator` SKILL.md
+- Read that file end-to-end to understand the `~/.withai/abilities/{org}/{ability}/` path structure
+- Figure out by trial and error that you need an org-level directory before the ability directory
 
-**Fix**: Show ability count, last sync time, and current permission states.
+A new user would likely use the WYSIWYG editor, think "nice markdown editor," and never discover that abilities exist. That's a huge missed opportunity.
 
-### 3. `withai.abilities.setup` Is Unclear
-I ran this command but nothing visibly happened. No prompt, no dialog, no notification. Looking at `~/.withai/config.json`, I see `"organization": null` and `"enabled": false`. 
+### 2. `withai.abilities.setup` does nothing visible
 
-**Fix**: This should open a dialog explaining what organization setup means and prompting for an org name.
+I ran "WithAI: Setup Abilities (Join Organization)" from the command palette. Nothing happened. No dialog, no notification, no error. Looking at `~/.withai/config.json` afterward, `organization` is `null` and `enabled` is `false`. I still don't know what this command is supposed to do versus what it actually did.
 
-### 4. No Way to Test Abilities from UI
-I registered 3 abilities but there's no "Run ability" or "Test ability" button. The only way to verify they work is to ask Claude Code directly or run the scripts manually.
+### 3. Settings panel shows toggles but not their current state
 
-**Fix**: Add a "Test" action next to each registered ability in the UI.
+When I open the Settings panel via the gear icon, I see permission groups with risk levels (Code Execution: high, Web Access: low, etc.). But there's no clear indication of what's currently enabled vs disabled for my workspace. I toggled things on and off but wasn't confident the changes stuck.
+
+### 4. `generate-pdf-from-md` requires `reportlab` but doesn't say so upfront
+
+The bundled PDF skill fails with `ModuleNotFoundError: No module named 'reportlab'` on first run. There's no pre-check, no helpful error message suggesting `pip install reportlab`, and no auto-install. I had to read the traceback, install the package manually, and also figure out which Python interpreter it needed (`/usr/local/bin/python3` vs conda's python).
+
+### 5. No WYSIWYG table insertion
+
+The editor renders existing Markdown tables beautifully. But there's no toolbar button to *create* a new table. I had to switch to raw Markdown, type the pipe syntax manually, then switch back. Defeats the WYSIWYG purpose for tables.
 
 ---
 
 ## What I Would Change Immediately
 
-### 1. Show Registered Abilities in Settings Panel
-When I open Settings, I want to see:
-```
-Abilities (3 registered)
-├── codebase-analyzer ✓
-├── doc-generator ✓  
-└── review-reporter ✓
-```
+### 1. Add an "Abilities" tab to the Settings panel
+Show:
+- List of installed abilities with status (registered / unregistered)
+- "Create New Ability" button that runs `withai.abilities.create`
+- Link to the agentskills.io docs
+- Sync status and last sync time
 
-### 2. First-Run Tutorial
-After installation, walk new users through:
-1. Here's the WYSIWYG editor (open a sample .md)
-2. Here's the Settings panel (show permissions)
-3. Here's abilities (create your first one)
+This single change would make abilities discoverable.
 
-### 3. Error Messages Should Be Actionable
-When something fails (like an ability not registering), show the specific line in SKILL.md that's wrong with a "Go to line" link.
+### 2. First-run onboarding walkthrough
+After install, show a 3-step guided tour:
+1. "Open any `.md` file → you're using the WYSIWYG editor"
+2. "Click the gear icon → configure Claude Code permissions"
+3. "Create your first ability → here's how"
+
+### 3. Show ability descriptions inline
+When registered abilities appear in `~/.claude/CLAUDE.md`, the descriptions are shown in a table. But this file is hidden from most users. Surface the same descriptions in the Settings panel or a sidebar view.
+
+### 4. Dependency pre-check for bundled skills
+Before running `md_to_pdf.py`, check if `reportlab` is importable. If not, show a notification: "The PDF skill requires reportlab. Install it? [Yes] [No]"
 
 ---
 
 ## Features I Would Add
 
-### 1. Ability Marketplace
-A gallery of community abilities users can install with one click. Would bootstrap new users and create ecosystem.
+### 1. Ability chaining
+Let abilities declare dependencies on other abilities. My `doc-generator` produces Markdown → it should be able to automatically invoke `generate-pdf-from-md` as its final step without the user knowing about both separately.
 
-### 2. Ability Chaining
-Let abilities call other abilities. My `doc-generator` should be able to automatically invoke `generate-pdf-from-md` as a final step.
+### 2. Ability marketplace / gallery
+A curated gallery of community abilities installable with one click. Like npm for Claude Code skills. This would:
+- Give new users something useful on day one
+- Create ecosystem and community
+- Provide templates for ability creators
 
-### 3. Ability Usage Analytics
-Show how often each ability is triggered, so creators can understand adoption.
+### 3. Live collaborative editing indicators
+When Claude Code is writing to a `.md` file while it's open in the WYSIWYG editor, show a visible cursor with a "Claude" label. Users would be able to watch the AI write in real-time. This would be a genuinely magical UX moment.
+
+### 4. Ability usage analytics
+Track how often each ability is triggered, average execution time, and success/failure rate. Surface this in the Settings panel so creators can iterate.
+
+---
+
+## UX / Workflow Improvements
+
+1. **Keyboard shortcut for Settings panel** — No keybinding exists. Add `Cmd+Shift+W` or similar.
+
+2. **Notification after workspace setup** — When `withai.setupWorkspace` creates `.claude/CLAUDE.md`, show a notification: "WithAI set up your workspace. [View CLAUDE.md] [Configure Settings]". Currently it happens silently.
+
+3. **"Open in WYSIWYG" CodeLens** — Add a clickable CodeLens at the top of `.md` files: "Open in WithAI Editor" — helps users who haven't set it as default discover the feature.
+
+4. **Status bar indicator** — Show a small status bar item: `WithAI: 3 abilities | Synced`. Makes the extension feel alive and present.
+
+5. **Dark mode contrast** — Check the Settings panel webview against popular dark themes (One Dark Pro, GitHub Dark Dimmed). Some text was hard to read.
 
 ---
 
 ## What Slowed Me Down
 
-1. **Finding abilities documentation**: The only docs are in the bundled SKILL.md files. Had to dig into `~/.vscode/extensions/withai-research.withai-extension-0.1.9/out/bundled-skills/`.
+1. **Finding abilities documentation** — No dedicated docs page. Everything lives in the bundled SKILL.md files inside the extension directory. Had to `find ~/.vscode/extensions -path '*withai*' -name 'SKILL.md'` to find them.
 
-2. **Understanding the path structure**: `~/.withai/abilities/{org}/{ability}/` wasn't obvious. First tried creating abilities in the project directory.
+2. **Path structure confusion** — `~/.withai/abilities/{org}/{ability}/` requires the org-name level directory. I initially tried `~/.withai/abilities/my-ability/` and registration couldn't find it.
 
-3. **No end-to-end example**: Would've helped to see "here's a complete ability from empty directory to registered and working" with screenshots.
+3. **Two Python interpreters** — My system has conda Python and `/usr/local/bin/python3`. The PDF skill needed reportlab installed on the right one. No guidance from the extension about which Python is being used.
 
-4. **WYSIWYG editor limitations**: Couldn't find a way to insert tables visually. Had to write markdown syntax manually.
+4. **No end-to-end tutorial** — The ability-creator SKILL.md documents the spec well but doesn't walk through "here's a complete ability from empty directory to registered and working." A 2-minute screencast or step-by-step guide would save hours.
 
 ---
 
 ## Summary
 
-WithAI's core idea is right: AI workspaces need more than just a chat panel. The abilities system is the differentiator — it's genuinely powerful once you understand it. The gap is discoverability. I spent significant time figuring out how abilities work, where files go, and how to verify registration. Making that journey smoother would dramatically improve the product.
+**The core insight is right**: an AI workspace needs more than a chat panel. WithAI's abilities system is genuinely novel — I haven't seen anything like it in other AI coding tools. The agentskills.io spec, the create → register → publish flow, and the auto-injection into `~/.claude/CLAUDE.md` are well-designed.
 
-The WYSIWYG editor and Settings panel are solid table-stakes features. The abilities system is the moat — invest in making it visible and accessible.
+**The gap is discoverability.** The most powerful feature is the hardest to find. A new user sees "nice markdown editor" and misses the entire platform. Closing that gap — through UI surfacing, onboarding, and documentation — would dramatically change how people perceive and use the product.
+
+The WYSIWYG editor and Settings panel are solid table-stakes features. The abilities system is the moat. Invest there.

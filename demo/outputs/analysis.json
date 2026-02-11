@@ -1,6 +1,6 @@
 {
   "project_name": "sample-project",
-  "analyzed_at": "2026-02-11T12:00:41.859494",
+  "analyzed_at": "2026-02-11T13:21:02.644741",
   "root_path": "/Users/elijahumana/devdoc-withai-project/demo/sample-project",
   "directory_tree": "sample-project/\n\u251c\u2500\u2500 README.md\n\u251c\u2500\u2500 requirements.txt\n\u251c\u2500\u2500 src/\n\u2502   \u251c\u2500\u2500 app.py\n\u2502   \u251c\u2500\u2500 models.py\n\u2502   \u251c\u2500\u2500 routes.py\n\u2502   \u251c\u2500\u2500 utils.py\n\u251c\u2500\u2500 tests/\n\u2502   \u2514\u2500\u2500 test_app.py",
   "tech_stack": {
@@ -1442,6 +1442,18 @@
           "src/app.py"
         ]
       },
+      "src/app.py": {
+        "fan_out": 3,
+        "fan_in": 1,
+        "depends_on": [
+          "src/models.py",
+          "src/routes.py",
+          "src/utils.py"
+        ],
+        "depended_by": [
+          "tests/test_app.py"
+        ]
+      },
       "tests/test_app.py": {
         "fan_out": 1,
         "fan_in": 0,
@@ -1457,18 +1469,6 @@
         "depended_by": [
           "src/app.py",
           "src/routes.py"
-        ]
-      },
-      "src/app.py": {
-        "fan_out": 3,
-        "fan_in": 1,
-        "depends_on": [
-          "src/models.py",
-          "src/routes.py",
-          "src/utils.py"
-        ],
-        "depended_by": [
-          "tests/test_app.py"
         ]
       }
     }
